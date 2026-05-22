@@ -25,6 +25,46 @@ class LocationViewModel : ViewModel() {
 
     private val apiKey = "4ab38d73be70ea079580dc16b1e54ba2"
 
+    // Default cities to display
+    private val defaultCities = listOf(
+        "London", "New York", "Tokyo", "Paris", "Sydney", "Dubai",
+        "Singapore", "Mumbai", "Berlin", "Toronto"
+    )
+
+    init {
+        loadDefaultCities()
+    }
+
+    fun loadDefaultCities() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            val weatherList = mutableListOf<WeatherData>()
+
+            defaultCities.forEach { cityName ->
+                try {
+                    val response = RetrofitInstance.apiService.getWeather(
+                        cityName = cityName,
+                        apiKey = apiKey,
+                        units = "metric"
+                    )
+
+                    val weatherData = WeatherData(
+                        name = response.name,
+                        temp = response.main.temp,
+                        humidity = response.main.humidity,
+                        description = response.weather[0].description
+                    )
+                    weatherList.add(weatherData)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            _allWeatherData.value = weatherList
+            _isLoading.value = false
+        }
+    }
+
     fun searchWeather(cityName: String) {
         viewModelScope.launch {
             _isLoading.value = true
