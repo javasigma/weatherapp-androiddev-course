@@ -19,11 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -47,6 +42,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -92,7 +88,7 @@ fun Weatherapp20231141App() {
                     NavigationBarItem(
                         icon = { 
                             Icon(
-                                imageVector = it.icon,
+                                painter = painterResource(id = it.icon),
                                 contentDescription = it.label,
                                 modifier = Modifier.size(24.dp)
                             )
@@ -128,20 +124,11 @@ fun Weatherapp20231141App() {
 
 enum class AppDestinations(
     val label: String,
-    val icon: androidx.compose.material.icons.rounded.Home,
+    val icon: Int,
 ) {
-    HOME("Home", androidx.compose.material.icons.rounded.Home() as androidx.compose.material.icons.rounded.Home),
-    LOCATIONS("Saved", androidx.compose.material.icons.rounded.Home() as androidx.compose.material.icons.rounded.Home),
-    PROFILE("Profile", androidx.compose.material.icons.rounded.Home() as androidx.compose.material.icons.rounded.Home),
-}
-
-enum class AppDestinationsFixed(
-    val label: String,
-    val icon: androidx.compose.material.icons.filled.Home,
-) {
-    HOME("Home", Icons.Filled.Home),
-    LOCATIONS("Saved", Icons.Filled.LocationOn),
-    PROFILE("Profile", Icons.Filled.Person),
+    HOME("Home", R.drawable.ic_home),
+    LOCATIONS("Saved", R.drawable.ic_location_pin),
+    PROFILE("Profile", R.drawable.ic_account_box),
 }
 
 @Composable
@@ -199,7 +186,7 @@ fun HomeScreen(viewModel: LocationViewModel) {
                     singleLine = true,
                     leadingIcon = {
                         Icon(
-                            Icons.Filled.Search,
+                            painter = painterResource(id = R.drawable.ic_weather_sunny),
                             contentDescription = "Search",
                             tint = MsnBlue,
                             modifier = Modifier.size(20.dp)
@@ -249,10 +236,11 @@ fun HomeScreen(viewModel: LocationViewModel) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        "🔍",
-                        fontSize = 64.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_weather_sunny),
+                        contentDescription = "Search",
+                        tint = MsnBlue,
+                        modifier = Modifier.size(64.dp)
                     )
                     Text(
                         "Search for a city",
@@ -260,7 +248,8 @@ fun HomeScreen(viewModel: LocationViewModel) {
                             color = DarkGray,
                             fontWeight = FontWeight.SemiBold
                         ),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 16.dp)
                     )
                 }
             }
@@ -464,10 +453,11 @@ fun SavedLocationsScreen(viewModel: LocationViewModel) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        "📍",
-                        fontSize = 64.sp,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_location_pin),
+                        contentDescription = "Location",
+                        tint = MsnBlue,
+                        modifier = Modifier.size(64.dp)
                     )
                     Text(
                         "No saved locations",
@@ -475,7 +465,8 @@ fun SavedLocationsScreen(viewModel: LocationViewModel) {
                             color = DarkGray,
                             fontWeight = FontWeight.SemiBold
                         ),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
                         "Go to Home and save a city",
@@ -590,10 +581,11 @@ fun ProfileScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "👤",
-            fontSize = 80.sp,
-            modifier = Modifier.padding(bottom = 24.dp)
+        Icon(
+            painter = painterResource(id = R.drawable.ic_account_box),
+            contentDescription = "Profile",
+            tint = MsnBlue,
+            modifier = Modifier.size(80.dp)
         )
         Text(
             "Profile",
@@ -601,7 +593,8 @@ fun ProfileScreen() {
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = DarkGray
-            )
+            ),
+            modifier = Modifier.padding(top = 24.dp)
         )
         Text(
             "User Settings",
